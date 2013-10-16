@@ -93,6 +93,7 @@ def main( ):
     jugarDenuevo = True
     #para la demostracion
 
+    quedarSe = False
     respuesta = None
     muestraPregunta = True
     modoPregunta = False
@@ -139,6 +140,7 @@ def main( ):
             moverSeCompaniero1 = False
             moverSeCompaniero2 = False
             moverSeCompaniero3 = False
+            quedarSe = False
             ir_a = None
             incremento = None
             direccion = None
@@ -177,6 +179,9 @@ def main( ):
 
         pygame.display.flip()
 
+        if quedarSe:
+            quedarSe = quedarSeGetEvent()
+
         if gameover:
             #solo reinicia el bucle
             continue
@@ -186,16 +191,9 @@ def main( ):
             pygame.time.wait( 2000 )
             respuesta = None
 
-        '''if malo1.maloMain( mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO):
-            gameover = True
-        elif malo2.maloMain( mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO):
-            gameover = True
-        elif malo3.maloMain( mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO):
-            gameover = True'''
-
         #print "bbbbbb"
 
-        if ir_a:
+        if ir_a and quedarSe == False:
             if jugador.moverSe( incremento, ir_a, mapaLogico ):
                 actualizaElIndiceDelJugador( mapaLogico, direccion )
                 ir_a = None
@@ -237,6 +235,7 @@ def main( ):
             gameover = True
         elif malo3.maloMain( jugador.posObjMatriz, mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO, ir_a):
             gameover = True
+
 
         if ir_a:
             continue
@@ -287,6 +286,7 @@ def main( ):
         #all_sprites_list.draw(ventana)  #se usará una vez que tengamos más personajes
 
         #if moverJugadorA == None: #con esto se evita que e mueva en otra direccion durante el movimiento
+
         for event in pygame.event.get( ): # event handling loop. Captura eventos del teclado una vez que se haya
                                     #presionado una tecla
             if event.type == QUIT:
@@ -304,6 +304,14 @@ def main( ):
                     moverJugadorA = "ARRIBA"
                 elif event.key == K_SPACE:
                     pausarJuego = True
+                elif event.key == K_q:
+                    print "deeeeeeee"
+                    if quedarSe == False:
+                        quedarSe =  True
+                    else:
+                        quedarSe = False
+                        print "ssdsa"
+                        pygame.time.wait(5000)
 
         #print "eeeeee"
         if moverJugadorA != None:
@@ -319,6 +327,19 @@ def main( ):
             #moverJugadorA = None
 
     return 0
+
+def quedarSeGetEvent():
+    quedarSe = True
+    for event in pygame.event.get( ):
+        if event.type == QUIT:
+            pygame.quit  
+            sys.exit( 0 )
+
+        elif event.type == KEYDOWN:
+            if event.key == K_q:
+                quedarSe = False
+
+    return quedarSe
 
 def captureEvent():
     pausarJuego = True
