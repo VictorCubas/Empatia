@@ -16,6 +16,7 @@ from Companiero import Companiero
 from Preguntas import Preguntas
 from Hud import Hud
 from Malo import Malo
+from Clock import Clock
 
 #-----------
 # Constantes
@@ -100,13 +101,7 @@ def main( ):
     esMalo = False
     pausarJuego = False
 
-    '''clock = pygame.time.Clock()
-    tickInicial = clock.get_time()
-    tickInicial /= 1000
-    #print "tickInicial %d" % tickInicial
-    tickActual = None
-    diferencia = 1000'''
-    #flag = False
+    clock = None
 
     while True:
 
@@ -116,10 +111,6 @@ def main( ):
             continue
 
         FPSreloj.tick( FPS )
-
-        #tickActual = clock.get_time()
-        #if tickActual - tickInicial == diferencia:
-        #print tickActual
 
         if jugarDenuevo:
             #ESTO NO ME GUSTA
@@ -137,6 +128,7 @@ def main( ):
             companiero2 = Companiero( 2, 2, TILE_ANCHO, TILE_ALTO )
             companiero3 = Companiero( 4, 5, TILE_ANCHO, TILE_ALTO )
 
+            clock = Clock()
             moverSeCompaniero1 = False
             moverSeCompaniero2 = False
             moverSeCompaniero3 = False
@@ -177,15 +169,16 @@ def main( ):
 
             esMalo = False
 
-        pygame.display.flip()
+        clock.mainClock( ventana, gameover )
 
-        if quedarSe:
-            quedarSe = quedarSeGetEvent()
+        pygame.display.flip()
 
         if gameover:
             #solo reinicia el bucle
             continue
 
+        if quedarSe:
+            quedarSe = quedarSeGetEvent()
 
         if respuesta:
             pygame.time.wait( 2000 )
@@ -274,8 +267,6 @@ def main( ):
             modoPregunta = tupla[ 1 ]
             moverSeCompaniero3 = tupla[ 0 ]
             print moverSeCompaniero3
-            
-            #flag = True
 
             continue
 
@@ -305,12 +296,10 @@ def main( ):
                 elif event.key == K_SPACE:
                     pausarJuego = True
                 elif event.key == K_q:
-                    print "deeeeeeee"
                     if quedarSe == False:
                         quedarSe =  True
                     else:
                         quedarSe = False
-                        print "ssdsa"
                         pygame.time.wait(5000)
 
         #print "eeeeee"
