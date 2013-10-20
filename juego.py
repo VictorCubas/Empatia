@@ -65,7 +65,7 @@ def main( ):
     # Diccionario de las imagenes del mapa 
     #-------------------------------------
 
-    hud = Hud( )
+    hud = None
     malo1 = None
     malo2 = None
     malo3 = None
@@ -127,6 +127,7 @@ def main( ):
             companiero1 = Companiero( 2, 8, TILE_ANCHO, TILE_ALTO )
             companiero2 = Companiero( 2, 2, TILE_ANCHO, TILE_ALTO )
             companiero3 = Companiero( 4, 5, TILE_ANCHO, TILE_ALTO )
+            hud = Hud( )
 
             clock = Clock()
             moverSeCompaniero1 = False
