@@ -66,7 +66,11 @@ class Preguntas:
         pygame.draw.rect(ventana, BLANCO, rectanguloPregunta)
 
         self.numeroPregunta = random.randint(1,3)
-        pregunta = self.fuentePregunta.render(self.parser.get('Pregunta'+ str(self.numeroPregunta), 'pregunta'), 1, COLORFUENTE)
+
+        pregunta = self.parser.get('Pregunta' + str(self.numeroPregunta), 'pregunta')
+        pregunta = unicode(pregunta, "UTF-8")
+
+        pregunta = self.fuentePregunta.render( pregunta , 1, COLORFUENTE)
         ventana.blit(pregunta, (XPOSPRE, YPOSPRE))
 
         fuenteOpciones = pygame.font.Font('freesansbold.ttf', 30)
