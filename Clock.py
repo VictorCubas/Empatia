@@ -13,10 +13,7 @@ class Clock( ):
     initialMin = -1
     min_anterior = -1
     minutos = -1
-    #flag = -1
     sec_toShow = -1
-
-    #def __init__( self ):
 
     def get_min_sec( self, time ):
         mi_sec = time[14] + time[15] + time[16] + time[17] + time[18]
@@ -44,7 +41,6 @@ class Clock( ):
 
         pos = (30, 60 )
         ventana.blit( time, pos )
-        #print "aaaaaa"
 
     def mainClock( self, ventana, gameover ):
         if not( gameover ):
@@ -52,51 +48,34 @@ class Clock( ):
                 self.initialTime = self.getTime( )
                 self.initialTime = self.get_min_sec( self.initialTime )
                 self.initialSec = int( self.initialTime[ 3 ] + self.initialTime[ 4 ] )
-                #self.initialMin = int( self.initialTime[ 0 ] + self.initialTime[ 1 ] )
 
             currentTime = self.getTime( )
             currentTime = self.get_min_sec( currentTime )
             currentSec = int( currentTime[ 3 ] + currentTime[ 4 ] )
-            #currentMin = int( currentTime[ 0 ] + currentTime[ 1 ] )
 
             self.sec_toShow = currentSec - self.initialSec
-            #self.min_toShow = currentMin - self.initialMin
     
             if currentSec < self.initialSec:
     
                 self.sec_toShow = currentSec + (60 - self.initialSec)
     
                 if self.sec_anterior != self.sec_toShow:
-                    #print self.sec_toShow
                     self.sec_anterior = self.sec_toShow
 
                     if self.sec_toShow == 0:
                         self.minutos += 1
 
-                    #if self.min_anterior != self.min_toShow:
-                    #    self.min_anterior = self.min_toShow
                     self.showTime( self.minutos , self.sec_toShow, ventana )
-                    #else:
-                    #    self.showTime( self.min_anterior, self.sec_toShow, ventana )
-                    #self.showTime( self.sec_toShow, ventana )
                 else:
                     self.showTime( self.minutos, self.sec_anterior, ventana )
             else:
-                #print currentMin
                 if self.sec_anterior != self.sec_toShow:
                     self.sec_anterior = self.sec_toShow
 
                     if self.sec_toShow == 0:
                         self.minutos += 1
     
-                    #if self.min_anterior != self.min_toShow:
-                        #print "hola"
-                        #print "(%d, %d)" % (self.min_anterior, self.min_toShow)
-                    #    self.min_anterior = self.min_toShow
-                    self.showTime( self.minutos , self.sec_toShow, ventana )
-                    #else:
-                    #    self.showTime( self.min_anterior, self.sec_toShow, ventana )
-    
+                    self.showTime( self.minutos , self.sec_toShow, ventana )    
                 else:
                     self.showTime( self.minutos, self.sec_anterior, ventana )
         
