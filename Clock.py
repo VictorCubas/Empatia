@@ -7,13 +7,12 @@ from datetime import datetime
 BLANCO = (255,255,255)
 
 class Clock( ):
-    initialTime = -1
-    initialSec = -1
+    initialTime = None
     sec_anterior = -1
-    initialMin = -1
-    min_anterior = -1
-    minutos = -1
+    minutes = 0
+    seconds = 0
     sec_toShow = -1
+    starting = True
 
     def get_min_sec( self, time ):
         mi_sec = time[14] + time[15] + time[16] + time[17] + time[18]
@@ -42,44 +41,38 @@ class Clock( ):
         pos = (30, 60 )
         ventana.blit( time, pos )
 
-    def mainClock( self, ventana, gameover ):
-        if not( gameover ):
-            if self.initialTime == -1:
+    #def timeStoped( self, ):
+
+    def mainClock( self, ventana, gameover, modoPregunta ):
+        if modoPregunta:
+            self.showTime( self.minutes, self.seconds, ventana )
+
+        elif not( gameover ):
+
+            self.showTime( self.minutes , self.seconds, ventana )
+
+            if not ( self.initialTime ):
                 self.initialTime = self.getTime( )
                 self.initialTime = self.get_min_sec( self.initialTime )
-                self.initialSec = int( self.initialTime[ 3 ] + self.initialTime[ 4 ] )
 
             currentTime = self.getTime( )
             currentTime = self.get_min_sec( currentTime )
             currentSec = int( currentTime[ 3 ] + currentTime[ 4 ] )
 
-            self.sec_toShow = currentSec - self.initialSec
-    
-            if currentSec < self.initialSec:
-    
-                self.sec_toShow = currentSec + (60 - self.initialSec)
-    
-                if self.sec_anterior != self.sec_toShow:
-                    self.sec_anterior = self.sec_toShow
+            if self.starting:
+                self.sec_anterior = currentSec
+                self.starting = False
 
-                    if self.sec_toShow == 0:
-                        self.minutos += 1
+            #cada vez que exista un cambio en el clock del sistema, exitste un cambio
+            #en el clock del juego
 
-                    self.showTime( self.minutos , self.sec_toShow, ventana )
+            if currentSec != self.sec_anterior:
+                self.sec_anterior = currentSec
+                if self.seconds < 59:
+                    self.seconds += 1
                 else:
-                    self.showTime( self.minutos, self.sec_anterior, ventana )
-            else:
-                if self.sec_anterior != self.sec_toShow:
-                    self.sec_anterior = self.sec_toShow
-
-                    if self.sec_toShow == 0:
-                        self.minutos += 1
-    
-                    self.showTime( self.minutos , self.sec_toShow, ventana )    
-                else:
-                    self.showTime( self.minutos, self.sec_anterior, ventana )
-        
+                    self.minutes += 1
+                    self.seconds = 0
         else:
-            self.showTime( self.minutos, self.sec_anterior, ventana )
-
+            self.showTime( self.minutes, self.seconds, ventana )
 
