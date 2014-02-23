@@ -7,7 +7,6 @@ from datetime import datetime
 BLANCO = (255,255,255)
 
 class Clock( ):
-    initialTime = None
     sec_anterior = -1
     minutes = 0
     seconds = 0
@@ -41,29 +40,27 @@ class Clock( ):
         pos = (30, 60 )
         ventana.blit( time, pos )
 
-    #def timeStoped( self, ):
-
     def mainClock( self, ventana, gameover, modoPregunta ):
+        currentSec = 0
+
         if modoPregunta:
+            print "currentSec: %d" % currentSec
+            print "sec_anterior: %d" % self.sec_anterior
             self.showTime( self.minutes, self.seconds, ventana )
 
         elif not( gameover ):
 
             self.showTime( self.minutes , self.seconds, ventana )
 
-            if not ( self.initialTime ):
-                self.initialTime = self.getTime( )
-                self.initialTime = self.get_min_sec( self.initialTime )
-
             currentTime = self.getTime( )
             currentTime = self.get_min_sec( currentTime )
             currentSec = int( currentTime[ 3 ] + currentTime[ 4 ] )
 
             if self.starting:
-                self.sec_anterior = currentSec
                 self.starting = False
+                self.sec_anterior = currentSec
 
-            #cada vez que exista un cambio en el clock del sistema, exitste un cambio
+            #cada vez que exista un cambio en el clock del sistema, existe un cambio
             #en el clock del juego
 
             if currentSec != self.sec_anterior:
