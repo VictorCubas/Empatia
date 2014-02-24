@@ -186,7 +186,6 @@ def main( ):
             quedarSe = quedarSeGetEvent()
 
         if respuesta:
-            #pygame.time.wait( 2000 )
             respuesta = None
 
         if ir_a and quedarSe == False:
@@ -237,7 +236,6 @@ def main( ):
 
         if modoPregunta:
             if muestraPregunta:
-                #pygame.time.wait( 500 )
                 preguntas.dibujarPregunta( ventana )
                 muestraPregunta = False
 
@@ -298,7 +296,6 @@ def main( ):
                         quedarSe =  True
                     else:
                         quedarSe = False
-                        #pygame.time.wait(5000)
 
         if moverJugadorA != None:
             puedeMoverse = mapaLogico.estaLibre( moverJugadorA, mapaLogico )
