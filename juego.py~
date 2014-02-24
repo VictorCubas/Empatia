@@ -16,6 +16,8 @@ from Companiero import Companiero
 from Preguntas import Preguntas
 from Hud import Hud
 from Malo import Malo
+from Clock import Clock
+from Apple import Apple
 
 #-----------
 # Constantes
@@ -45,7 +47,7 @@ def main( ):
     jugador = Jugador( TILE_ANCHO, TILE_ALTO )
 
     jugador.setPosicionInicial( 360, 425)
-    y = int( ANCHO / TILE_ANCHO )
+    y = int ( ANCHO / TILE_ANCHO )
     x = int ( ALTO / TILE_ALTO )
 
     #------------------------	
@@ -57,14 +59,16 @@ def main( ):
                       'pisoSombra' : pygame.image.load( 'piso4.png' ),
                       'pisoNormal' : pygame.image.load( 'pisoNormal.png' ),
                       'companiero1' : pygame.image.load( 'companiero1.png' ),
-                      'malo': pygame.image.load('malo.png')
+                      'malo': pygame.image.load('malo.png'),
+                      'apple': pygame.image.load('apple.png')
 					}
 
     #-------------------------------------
     # Diccionario de las imagenes del mapa 
     #-------------------------------------
 
-    hud = Hud( )
+    apple = None
+    hud = None
     malo1 = None
     malo2 = None
     malo3 = None
@@ -93,19 +97,14 @@ def main( ):
     jugarDenuevo = True
     #para la demostracion
 
+    quedarSe = False
     respuesta = None
     muestraPregunta = True
     modoPregunta = False
     esMalo = False
     pausarJuego = False
 
-    '''clock = pygame.time.Clock()
-    tickInicial = clock.get_time()
-    tickInicial /= 1000
-    #print "tickInicial %d" % tickInicial
-    tickActual = None
-    diferencia = 1000'''
-    #flag = False
+    clock = None
 
     while True:
 
@@ -116,12 +115,13 @@ def main( ):
 
         FPSreloj.tick( FPS )
 
-        #tickActual = clock.get_time()
-        #if tickActual - tickInicial == diferencia:
-        #print tickActual
-
         if jugarDenuevo:
+            #apple = Apple( DICC_IMAGENES[ 'apple' ] )
+            #apple.appleMain( listaMapa )
+
             #ESTO NO ME GUSTA
+
+
             malo1 = Malo("malo.png", (6, 2), TILE_ANCHO, TILE_ALTO)
             malo2 = Malo("malo.png", (1, 0), TILE_ANCHO, TILE_ALTO)
             malo3 = Malo("malo.png", (0, 12), TILE_ANCHO, TILE_ALTO)
@@ -135,10 +135,13 @@ def main( ):
             companiero1 = Companiero( 2, 8, TILE_ANCHO, TILE_ALTO )
             companiero2 = Companiero( 2, 2, TILE_ANCHO, TILE_ALTO )
             companiero3 = Companiero( 4, 5, TILE_ANCHO, TILE_ALTO )
+            hud = Hud( )
 
+            clock = Clock()
             moverSeCompaniero1 = False
             moverSeCompaniero2 = False
             moverSeCompaniero3 = False
+            quedarSe = False
             ir_a = None
             incremento = None
             direccion = None
@@ -152,10 +155,9 @@ def main( ):
             modoPregunta = False
             esMalo = False
 
-
             jugarDenuevo = False
-        #print "aaaaaaa"
 
+        #if not( modoPregunta ) or modoPregunta:
         if not( modoPregunta ):
             mundoReal.dibujarMundoReal( listaMapa, ventana, DICC_IMAGENES )
             jugador.draw( ventana )
@@ -168,6 +170,9 @@ def main( ):
 
             hud.draw( ventana, esMalo )
 
+            #   ventana.blit(pygame.image.load( 'trans.png' ),(50,50))
+            #clock.mainClock( ventana, gameover )
+
             if gameover:
                 jugarDenuevo = jugador.gameOver( ventana )
                 if jugarDenuevo:
@@ -175,27 +180,22 @@ def main( ):
 
             esMalo = False
 
+        clock.mainClock( ventana, gameover, modoPregunta )
+
         pygame.display.flip()
 
         if gameover:
             #solo reinicia el bucle
             continue
 
+        if quedarSe:
+            quedarSe = quedarSeGetEvent()
 
         if respuesta:
-            pygame.time.wait( 2000 )
+            #pygame.time.wait( 2000 )
             respuesta = None
 
-        '''if malo1.maloMain( mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO):
-            gameover = True
-        elif malo2.maloMain( mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO):
-            gameover = True
-        elif malo3.maloMain( mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO):
-            gameover = True'''
-
-        #print "bbbbbb"
-
-        if ir_a:
+        if ir_a and quedarSe == False:
             if jugador.moverSe( incremento, ir_a, mapaLogico ):
                 actualizaElIndiceDelJugador( mapaLogico, direccion )
                 ir_a = None
@@ -222,7 +222,6 @@ def main( ):
                         muestraPregunta = True
 
                 if not( modoPregunta ):
-                    #print "companiero3"
                     tupla = companiero3.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
                     if tupla:
                         modoPregunta = tupla[ 1 ]
@@ -238,13 +237,13 @@ def main( ):
         elif malo3.maloMain( jugador.posObjMatriz, mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO, ir_a):
             gameover = True
 
+
         if ir_a:
             continue
 
-        #print "cccccccc1"
         if modoPregunta:
             if muestraPregunta:
-                pygame.time.wait( 1000 )
+                #pygame.time.wait( 500 )
                 preguntas.dibujarPregunta( ventana )
                 muestraPregunta = False
 
@@ -256,7 +255,6 @@ def main( ):
 
             continue
         
-        #print "cccccccc2"
         if moverSeCompaniero1:
             tupla = companiero1.interactuando( modoPregunta, listaMapa )
             modoPregunta = tupla[ 1 ]
@@ -270,23 +268,20 @@ def main( ):
 
             continue
         elif moverSeCompaniero3:
-            #print "cccccccc3"
             tupla = companiero3.interactuando( modoPregunta, listaMapa )
             modoPregunta = tupla[ 1 ]
             moverSeCompaniero3 = tupla[ 0 ]
             print moverSeCompaniero3
-            
-            #flag = True
 
             continue
 
-        #print "dddddd"
 
         #blocks_hit_list = pygame.sprite.spsritecollide(jugador, block_list, True)
 
         #all_sprites_list.draw(ventana)  #se usará una vez que tengamos más personajes
 
         #if moverJugadorA == None: #con esto se evita que e mueva en otra direccion durante el movimiento
+
         for event in pygame.event.get( ): # event handling loop. Captura eventos del teclado una vez que se haya
                                     #presionado una tecla
             if event.type == QUIT:
@@ -304,8 +299,13 @@ def main( ):
                     moverJugadorA = "ARRIBA"
                 elif event.key == K_SPACE:
                     pausarJuego = True
+                elif event.key == K_q:
+                    if quedarSe == False:
+                        quedarSe =  True
+                    else:
+                        quedarSe = False
+                        #pygame.time.wait(5000)
 
-        #print "eeeeee"
         if moverJugadorA != None:
             puedeMoverse = mapaLogico.estaLibre( moverJugadorA, mapaLogico )
 
@@ -319,6 +319,19 @@ def main( ):
             #moverJugadorA = None
 
     return 0
+
+def quedarSeGetEvent():
+    quedarSe = True
+    for event in pygame.event.get( ):
+        if event.type == QUIT:
+            pygame.quit  
+            sys.exit( 0 )
+
+        elif event.type == KEYDOWN:
+            if event.key == K_q:
+                quedarSe = False
+
+    return quedarSe
 
 def captureEvent():
     pausarJuego = True

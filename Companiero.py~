@@ -142,7 +142,7 @@ class Companiero( ):
         self.si_interactua = self.siInteractua( xDelJugador, yDelJugador, tileAncho )
 
         if self.si_interactua:
-            self.yaEsHora = random.randint(0, 2)
+            self.yaEsHora = random.randint(0, 5)
             #print "%d, %d" % (xDelJugador, yDelJugador)
             #print "yaEsHora: %d" % self.yaEsHora
             #pygame.time.wait(3000)

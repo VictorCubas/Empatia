@@ -17,6 +17,7 @@ from Preguntas import Preguntas
 from Hud import Hud
 from Malo import Malo
 from Clock import Clock
+from Apple import Apple
 
 #-----------
 # Constantes
@@ -46,7 +47,7 @@ def main( ):
     jugador = Jugador( TILE_ANCHO, TILE_ALTO )
 
     jugador.setPosicionInicial( 360, 425)
-    y = int( ANCHO / TILE_ANCHO )
+    y = int ( ANCHO / TILE_ANCHO )
     x = int ( ALTO / TILE_ALTO )
 
     #------------------------	
@@ -58,13 +59,15 @@ def main( ):
                       'pisoSombra' : pygame.image.load( 'piso4.png' ),
                       'pisoNormal' : pygame.image.load( 'pisoNormal.png' ),
                       'companiero1' : pygame.image.load( 'companiero1.png' ),
-                      'malo': pygame.image.load('malo.png')
+                      'malo': pygame.image.load('malo.png'),
+                      'apple': pygame.image.load('apple.png')
 					}
 
     #-------------------------------------
     # Diccionario de las imagenes del mapa 
     #-------------------------------------
 
+    apple = None
     hud = None
     malo1 = None
     malo2 = None
@@ -113,7 +116,12 @@ def main( ):
         FPSreloj.tick( FPS )
 
         if jugarDenuevo:
+            #apple = Apple( DICC_IMAGENES[ 'apple' ] )
+            #apple.appleMain( listaMapa )
+
             #ESTO NO ME GUSTA
+
+
             malo1 = Malo("malo.png", (6, 2), TILE_ANCHO, TILE_ALTO)
             malo2 = Malo("malo.png", (1, 0), TILE_ANCHO, TILE_ALTO)
             malo3 = Malo("malo.png", (0, 12), TILE_ANCHO, TILE_ALTO)
@@ -147,10 +155,9 @@ def main( ):
             modoPregunta = False
             esMalo = False
 
-
             jugarDenuevo = False
-        #print "aaaaaaa"
 
+        #if not( modoPregunta ) or modoPregunta:
         if not( modoPregunta ):
             mundoReal.dibujarMundoReal( listaMapa, ventana, DICC_IMAGENES )
             jugador.draw( ventana )
@@ -163,6 +170,9 @@ def main( ):
 
             hud.draw( ventana, esMalo )
 
+            #   ventana.blit(pygame.image.load( 'trans.png' ),(50,50))
+            #clock.mainClock( ventana, gameover )
+
             if gameover:
                 jugarDenuevo = jugador.gameOver( ventana )
                 if jugarDenuevo:
@@ -170,7 +180,7 @@ def main( ):
 
             esMalo = False
 
-        clock.mainClock( ventana, gameover )
+        clock.mainClock( ventana, gameover, modoPregunta )
 
         pygame.display.flip()
 
@@ -182,10 +192,8 @@ def main( ):
             quedarSe = quedarSeGetEvent()
 
         if respuesta:
-            pygame.time.wait( 2000 )
+            #pygame.time.wait( 2000 )
             respuesta = None
-
-        #print "bbbbbb"
 
         if ir_a and quedarSe == False:
             if jugador.moverSe( incremento, ir_a, mapaLogico ):
@@ -214,7 +222,6 @@ def main( ):
                         muestraPregunta = True
 
                 if not( modoPregunta ):
-                    #print "companiero3"
                     tupla = companiero3.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
                     if tupla:
                         modoPregunta = tupla[ 1 ]
@@ -234,10 +241,9 @@ def main( ):
         if ir_a:
             continue
 
-        #print "cccccccc1"
         if modoPregunta:
             if muestraPregunta:
-                pygame.time.wait( 1000 )
+                #pygame.time.wait( 500 )
                 preguntas.dibujarPregunta( ventana )
                 muestraPregunta = False
 
@@ -249,7 +255,6 @@ def main( ):
 
             continue
         
-        #print "cccccccc2"
         if moverSeCompaniero1:
             tupla = companiero1.interactuando( modoPregunta, listaMapa )
             modoPregunta = tupla[ 1 ]
@@ -263,7 +268,6 @@ def main( ):
 
             continue
         elif moverSeCompaniero3:
-            #print "cccccccc3"
             tupla = companiero3.interactuando( modoPregunta, listaMapa )
             modoPregunta = tupla[ 1 ]
             moverSeCompaniero3 = tupla[ 0 ]
@@ -271,7 +275,6 @@ def main( ):
 
             continue
 
-        #print "dddddd"
 
         #blocks_hit_list = pygame.sprite.spsritecollide(jugador, block_list, True)
 
@@ -301,9 +304,8 @@ def main( ):
                         quedarSe =  True
                     else:
                         quedarSe = False
-                        pygame.time.wait(5000)
+                        #pygame.time.wait(5000)
 
-        #print "eeeeee"
         if moverJugadorA != None:
             puedeMoverse = mapaLogico.estaLibre( moverJugadorA, mapaLogico )
 

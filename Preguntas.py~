@@ -66,21 +66,28 @@ class Preguntas:
         pygame.draw.rect(ventana, BLANCO, rectanguloPregunta)
 
         self.numeroPregunta = random.randint(1,3)
-        pregunta = self.fuentePregunta.render(self.parser.get('Pregunta'+ str(self.numeroPregunta), 'pregunta'), 1, COLORFUENTE)
+
+        #obtiene la pregunta
+        pregunta = self.parser.get('Pregunta' + str(self.numeroPregunta), 'pregunta')
+
+        #se agrega acentos al texto
+        pregunta = unicode(pregunta, "UTF-8")
+
+        pregunta = self.fuentePregunta.render( pregunta , 1, COLORFUENTE)
         ventana.blit(pregunta, (XPOSPRE, YPOSPRE))
 
         fuenteOpciones = pygame.font.Font('freesansbold.ttf', 30)
 
-        opcion1 = fuenteOpciones.render('1- '+self.parser.get('Pregunta' + str(self.numeroPregunta), 'opcion1'), 1,  COLORFUENTE)
+        opcion1 = fuenteOpciones.render('1) '+self.parser.get('Pregunta' + str(self.numeroPregunta), 'opcion1'), 1,  COLORFUENTE)
         ventana.blit(opcion1, (XPOSOP1, YPOSOP1))
 
-        opcion2 = fuenteOpciones.render('2- '+self.parser.get('Pregunta' + str(self.numeroPregunta), 'opcion2'), 1, COLORFUENTE)
+        opcion2 = fuenteOpciones.render('2) '+self.parser.get('Pregunta' + str(self.numeroPregunta), 'opcion2'), 1, COLORFUENTE)
         ventana.blit(opcion2, (XPOSOP2, YPOSOP2))
 
-        opcion3 = fuenteOpciones.render('3- '+self.parser.get('Pregunta' + str(self.numeroPregunta), 'opcion3'), 1, COLORFUENTE)
+        opcion3 = fuenteOpciones.render('3) '+self.parser.get('Pregunta' + str(self.numeroPregunta), 'opcion3'), 1, COLORFUENTE)
         ventana.blit(opcion3, (XPOSOP3, YPOSOP3))
       
-        opcion4 = fuenteOpciones.render('4- '+self.parser.get('Pregunta' + str(self.numeroPregunta), 'opcion4'), 1, COLORFUENTE)
+        opcion4 = fuenteOpciones.render('4) '+self.parser.get('Pregunta' + str(self.numeroPregunta), 'opcion4'), 1, COLORFUENTE)
         ventana.blit(opcion4, (XPOSOP4, YPOSOP4))
 
 #----------------------------------------------------------------------------------------------
@@ -92,7 +99,7 @@ class Preguntas:
         for event in pygame.event.get( ):
 
             if event.type == QUIT:
-                pygame.quit  
+                pygame.quit
                 sys.exit( 0 )
 
             elif event.type == KEYDOWN:

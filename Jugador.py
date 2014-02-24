@@ -20,9 +20,14 @@ class Jugador( ):
         self.rect = self.image.get_rect()
 #        posicionActual = self.rect
 
+        self.spriteJugador = pygame.sprite.Sprite()
+        self.spriteJugador.image = self.image
+        self.spriteJugador.rect = self.rect
+
     def draw(self, ventana):
         "Muestra al personaje en pantalla."
-        ventana.blit(self.image, self.rect)
+        #ventana.blit(self.image, self.rect)
+        ventana.blit( self.spriteJugador.image, self.spriteJugador.rect )
 
     def setPosicionInicial( self, xPosicion, yPosicion ):
         self.rect.x = xPosicion

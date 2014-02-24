@@ -67,7 +67,10 @@ class Preguntas:
 
         self.numeroPregunta = random.randint(1,3)
 
+        #obtiene la pregunta
         pregunta = self.parser.get('Pregunta' + str(self.numeroPregunta), 'pregunta')
+
+        #se agrega acentos al texto
         pregunta = unicode(pregunta, "UTF-8")
 
         pregunta = self.fuentePregunta.render( pregunta , 1, COLORFUENTE)
@@ -96,7 +99,7 @@ class Preguntas:
         for event in pygame.event.get( ):
 
             if event.type == QUIT:
-                pygame.quit  
+                pygame.quit
                 sys.exit( 0 )
 
             elif event.type == KEYDOWN:

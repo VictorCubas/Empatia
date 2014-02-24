@@ -22,14 +22,20 @@ class Malo( ):
         #self._game_data = game_data
         self.pos_maloMatriz = posEnLaMatriz
         self.imagenMalo = pygame.image.load( imagen )
+        
         self.rect = self.imagenMalo.get_rect()
         self.rect.x = tile_ancho * posEnLaMatriz[ 1 ]
         self.rect.y = tile_alto * posEnLaMatriz[ 0 ]
         self.tileAlto = tile_alto
         self.tileAncho = tile_ancho
 
+        self.spriteMalo = pygame.sprite.Sprite( )
+        self.spriteMalo.image = self.imagenMalo
+        self.spriteMalo.rect = self.rect
+
     def draw( self, ventana ):
-        ventana.blit( self.imagenMalo, self.rect )
+        #ventana.blit( self.imagenMalo, self.rect )
+        ventana.blit( self.spriteMalo.image, self.spriteMalo.rect )
 
     def posActualMundoReal( self, tileAncho, tileAlto ):
         pos_actual = ( tileAncho * self.pos_maloMatriz[ 1 ], tileAlto * self.pos_maloMatriz[ 0 ] )
@@ -67,15 +73,13 @@ class Malo( ):
         a = xJugador == self.i_nuevo and yJugador == self.j_nuevo
         b = xJugador == self.pos_maloMatriz[0] and yJugador == self.pos_maloMatriz[1]
         if a and not(self.casi_gameover):
-            print "CASI GAME OVER"
-            print ir_a_jugador
+            #print "CASI GAME OVER"
+            #print ir_a_jugador
             #pygame.time.wait(5000)
             #if ir_a_jugador == None:
             self.casi_gameover = True
             return True
 
-    def getPorcentaje( self ):
-        self.rect.x
 
     def findPosMatriz( self, posObjJugador,mapa, x, y ):
         i = self.pos_maloMatriz[ 0 ]
