@@ -19,28 +19,28 @@ BLANCO = (255,255,255)
 COLORFUENTE = NEGRO
 
 # Posicion del rectangulo en pantalla
-XPOSRECT = 500
-YPOSRECT = 300
+#XPOSRECT = 500
+#YPOSRECT = 300
 
 # Posicion de la pregunta en pantalla
-XPOSPRE = 100
-YPOSPRE = 110
+XPOSPRE = 130
+YPOSPRE = 130
 
 # Posicion de la opcion 1 en la pantalla 
-XPOSOP1= 100
-YPOSOP1 = 140
+XPOSOP1= 130
+YPOSOP1 = 160
 
 # Posicion de la opcion 2 en la pantalla
-XPOSOP2 = 100
-YPOSOP2 =  170
+XPOSOP2 = 130
+YPOSOP2 =  190
 
 # Posicion de la opcion 3 en la pantalla
-XPOSOP3 = 100
-YPOSOP3 = 200
+XPOSOP3 = 130
+YPOSOP3 = 220
 
 # Posicion de la opcion 4 en la pantalla
-XPOSOP4 = 100
-YPOSOP4 = 230
+XPOSOP4 = 130
+YPOSOP4 = 250
 
 #----------------------------------------------------------------------------------------------
 # Diccionario de Opciones, si no es filosofia pokemon
@@ -59,11 +59,13 @@ class Preguntas:
         self.numeroPregunta = None
         self.fuente = None
         self.puntaje = 0
+        self.imagenFondo = pygame.image.load('trans4.png')
 
     def dibujarPregunta(self, ventana):
 
-        rectanguloPregunta = pygame.Rect(100,100,XPOSRECT,YPOSRECT)
-        pygame.draw.rect(ventana, BLANCO, rectanguloPregunta)
+        #rectanguloPregunta = pygame.Rect(100,100,XPOSRECT,YPOSRECT)
+        #pygame.draw.rect(ventana, BLANCO, rectanguloPregunta)
+        ventana.blit( self.imagenFondo, ( 85, 85 ) )
 
         self.numeroPregunta = random.randint(1,3)
 
