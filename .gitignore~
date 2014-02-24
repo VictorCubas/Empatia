@@ -1,6 +1,7 @@
 *.py[cod]
 *.pyc
 *.py~
+*.gitignore~
 
 # C extensions
 *.so
