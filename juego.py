@@ -17,7 +17,6 @@ from Preguntas import Preguntas
 from Hud import Hud
 from Malo import Malo
 from Clock import Clock
-from Apple import Apple
 
 #-----------
 # Constantes
@@ -60,14 +59,12 @@ def main( ):
                       'pisoNormal' : pygame.image.load( 'pisoNormal.png' ),
                       'companiero1' : pygame.image.load( 'companiero1.png' ),
                       'malo': pygame.image.load('malo.png'),
-                      'apple': pygame.image.load('apple.png')
 					}
 
     #-------------------------------------
     # Diccionario de las imagenes del mapa 
     #-------------------------------------
 
-    apple = None
     hud = None
     malo1 = None
     malo2 = None
@@ -116,11 +113,8 @@ def main( ):
         FPSreloj.tick( FPS )
 
         if jugarDenuevo:
-            #apple = Apple( DICC_IMAGENES[ 'apple' ] )
-            #apple.appleMain( listaMapa )
-
             #ESTO NO ME GUSTA
-
+            #INICIALIZACION
 
             malo1 = Malo("malo.png", (6, 2), TILE_ANCHO, TILE_ALTO)
             malo2 = Malo("malo.png", (1, 0), TILE_ANCHO, TILE_ALTO)
@@ -153,7 +147,7 @@ def main( ):
             respuesta = None
             muestraPregunta = True
             modoPregunta = False
-            esMalo = False
+            esMalo = False 
 
             jugarDenuevo = False
 
