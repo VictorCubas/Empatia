@@ -105,10 +105,10 @@ def main( ):
 
     while True:
 
-        if pausarJuego:
-            pausarJuego = captureEvent()
+        #if pausarJuego:
+            #pausarJuego = captureEvent()
 
-            continue
+            #continue
 
         FPSreloj.tick( FPS )
 
@@ -188,91 +188,92 @@ def main( ):
         if respuesta:
             respuesta = None
 
-        if ir_a and quedarSe == False:
-            if jugador.moverSe( incremento, ir_a, mapaLogico ):
-                actualizaElIndiceDelJugador( mapaLogico, direccion )
-                ir_a = None
-                incremento = None
-                direccion = None
+        if not( pausarJuego ):
+            if ir_a and quedarSe == False:
+                if jugador.moverSe( incremento, ir_a, mapaLogico ):
+                    actualizaElIndiceDelJugador( mapaLogico, direccion )
+                    ir_a = None
+                    incremento = None
+                    direccion = None
 
-                #if not( moverSeCompaniero1 ):
-                #print companiero1.getPosY( )
-
-                tupla = companiero1.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
-                if tupla:
-                    modoPregunta = tupla[ 1 ]
-                    moverSeCompaniero1 = tupla[ 0 ]
-
-                    if modoPregunta:
-                        muestraPregunta = True
-
-                #print "modoPregunta: %d" % modoPregunta
-                if not( modoPregunta ):
-                    tupla = companiero2.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
+                    #if not( moverSeCompaniero1 ):
+                    #print companiero1.getPosY( )
+    
+                    tupla = companiero1.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
                     if tupla:
                         modoPregunta = tupla[ 1 ]
-                        moverSeCompaniero2 = tupla[ 0 ]
-                        muestraPregunta = True
+                        moverSeCompaniero1 = tupla[ 0 ]
+    
+                        if modoPregunta:
+                            muestraPregunta = True
 
-                if not( modoPregunta ):
-                    tupla = companiero3.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
-                    if tupla:
-                        modoPregunta = tupla[ 1 ]
-                        moverSeCompaniero3 = tupla[ 0 ]
-                        muestraPregunta = True
+                    #print "modoPregunta: %d" % modoPregunta
+                    if not( modoPregunta ):
+                        tupla = companiero2.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
+                        if tupla:
+                            modoPregunta = tupla[ 1 ]
+                            moverSeCompaniero2 = tupla[ 0 ]
+                            muestraPregunta = True
 
-            #continue
+                    if not( modoPregunta ):
+                        tupla = companiero3.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
+                        if tupla:
+                            modoPregunta = tupla[ 1 ]
+                            moverSeCompaniero3 = tupla[ 0 ]
+                            muestraPregunta = True
+    
+                #continue
+    
+            if malo1.maloMain( jugador.posObjMatriz, mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO, ir_a):
+                gameover = True
+            elif malo2.maloMain( jugador.posObjMatriz, mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO, ir_a):
+                gameover = True
+            elif malo3.maloMain( jugador.posObjMatriz, mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO, ir_a):
+                gameover = True
 
-        if malo1.maloMain( jugador.posObjMatriz, mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO, ir_a):
-            gameover = True
-        elif malo2.maloMain( jugador.posObjMatriz, mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO, ir_a):
-            gameover = True
-        elif malo3.maloMain( jugador.posObjMatriz, mapaLogico, listaMapa, modoPregunta, TILE_ANCHO, TILE_ALTO, ir_a):
-            gameover = True
 
+            if ir_a:
+                continue
 
-        if ir_a:
-            continue
+            if modoPregunta:
+                if muestraPregunta:
+                    preguntas.dibujarPregunta( ventana )
+                    muestraPregunta = False
 
-        if modoPregunta:
-            if muestraPregunta:
-                preguntas.dibujarPregunta( ventana )
-                muestraPregunta = False
+                respuesta = preguntas.elegirOpcion( preguntas )
+                if respuesta:
+                    modoPregunta = False
+                    if respuesta == '4':
+                        esMalo = True
 
-            respuesta = preguntas.elegirOpcion( preguntas )
-            if respuesta:
-                modoPregunta = False
-                if respuesta == '4':
-                    esMalo = True
-
-            continue
+                continue
         
-        if moverSeCompaniero1:
-            tupla = companiero1.interactuando( modoPregunta, listaMapa )
-            modoPregunta = tupla[ 1 ]
-            moverSeCompaniero1 = tupla[ 0 ]
+            if moverSeCompaniero1:
+                tupla = companiero1.interactuando( modoPregunta, listaMapa )
+                modoPregunta = tupla[ 1 ]
+                moverSeCompaniero1 = tupla[ 0 ]
 
-            continue
-        elif moverSeCompaniero2:
-            tupla = companiero2.interactuando( modoPregunta, listaMapa )
-            modoPregunta = tupla[ 1 ]
-            moverSeCompaniero2 = tupla[ 0 ]
+                continue
+            elif moverSeCompaniero2:
+                tupla = companiero2.interactuando( modoPregunta, listaMapa )
+                modoPregunta = tupla[ 1 ]
+                moverSeCompaniero2 = tupla[ 0 ]
 
-            continue
-        elif moverSeCompaniero3:
-            tupla = companiero3.interactuando( modoPregunta, listaMapa )
-            modoPregunta = tupla[ 1 ]
-            moverSeCompaniero3 = tupla[ 0 ]
-            print moverSeCompaniero3
+                continue
+            elif moverSeCompaniero3:
+                tupla = companiero3.interactuando( modoPregunta, listaMapa )
+                modoPregunta = tupla[ 1 ]
+                moverSeCompaniero3 = tupla[ 0 ]
+                print moverSeCompaniero3
 
-            continue
+                continue
 
 
-        #blocks_hit_list = pygame.sprite.spsritecollide(jugador, block_list, True)
+            #blocks_hit_list = pygame.sprite.spsritecollide(jugador, block_list, True)
 
-        #all_sprites_list.draw(ventana)  #se usará una vez que tengamos más personajes
+            #all_sprites_list.draw(ventana)  #se usará una vez que tengamos más personajes
 
-        #if moverJugadorA == None: #con esto se evita que e mueva en otra direccion durante el movimiento
+            #if moverJugadorA == None: #con esto se evita que e mueva en otra direccion durante el movimiento
 
         for event in pygame.event.get( ): # event handling loop. Captura eventos del teclado una vez que se haya
                                     #presionado una tecla
@@ -290,7 +291,10 @@ def main( ):
                 elif event.key == K_UP:
                     moverJugadorA = "ARRIBA"
                 elif event.key == K_SPACE:
-                    pausarJuego = True
+                    if not(pausarJuego ):
+                        pausarJuego = True
+                    else:
+                        pausarJuego = False
                 elif event.key == K_q:
                     if quedarSe == False:
                         quedarSe =  True
@@ -323,19 +327,6 @@ def quedarSeGetEvent():
                 quedarSe = False
 
     return quedarSe
-
-def captureEvent():
-    pausarJuego = True
-    for event in pygame.event.get( ):
-        if event.type == QUIT:
-            pygame.quit  
-            sys.exit( 0 )
-
-        elif event.type == KEYDOWN:
-            if event.key == K_SPACE:
-                pausarJuego = False
-
-    return pausarJuego
 
 def actualizaElIndiceDelJugador( mapaLogico, moverJugadorA ):
     if moverJugadorA == "DERECHA":
