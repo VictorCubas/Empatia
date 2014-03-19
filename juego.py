@@ -182,9 +182,6 @@ def main( ):
             #solo reinicia el bucle
             continue
 
-        if quedarSe:
-            quedarSe = quedarSeGetEvent()
-
         if respuesta:
             respuesta = None
 
@@ -232,7 +229,7 @@ def main( ):
                 gameover = True
 
 
-            if ir_a:
+            if ir_a and quedarSe == False:
                 continue
 
             if modoPregunta:
@@ -291,12 +288,12 @@ def main( ):
                 elif event.key == K_UP:
                     moverJugadorA = "ARRIBA"
                 elif event.key == K_SPACE:
-                    if not(pausarJuego ):
+                    if not( pausarJuego ):
                         pausarJuego = True
                     else:
                         pausarJuego = False
                 elif event.key == K_q:
-                    if quedarSe == False:
+                    if not( quedarSe ):
                         quedarSe =  True
                     else:
                         quedarSe = False
@@ -314,19 +311,6 @@ def main( ):
             #moverJugadorA = None
 
     return 0
-
-def quedarSeGetEvent():
-    quedarSe = True
-    for event in pygame.event.get( ):
-        if event.type == QUIT:
-            pygame.quit  
-            sys.exit( 0 )
-
-        elif event.type == KEYDOWN:
-            if event.key == K_q:
-                quedarSe = False
-
-    return quedarSe
 
 def actualizaElIndiceDelJugador( mapaLogico, moverJugadorA ):
     if moverJugadorA == "DERECHA":
