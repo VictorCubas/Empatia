@@ -100,6 +100,7 @@ def main( ):
     modoPregunta = False
     esMalo = False
     pausarJuego = False
+    respuestaJugador = None
 
     clock = None
 
@@ -147,11 +148,11 @@ def main( ):
             respuesta = None
             muestraPregunta = True
             modoPregunta = False
-            esMalo = False 
+            esMalo = False
+            respuestaJugador = None
 
             jugarDenuevo = False
 
-        #if not( modoPregunta ) or modoPregunta:
         if not( modoPregunta ):
             mundoReal.dibujarMundoReal( listaMapa, ventana, DICC_IMAGENES )
             jugador.draw( ventana )
@@ -163,9 +164,6 @@ def main( ):
             malo3.draw( ventana )
 
             hud.draw( ventana, esMalo )
-
-            #   ventana.blit(pygame.image.load( 'trans.png' ),(50,50))
-            #clock.mainClock( ventana, gameover )
 
             if gameover:
                 jugarDenuevo = jugador.gameOver( ventana )
@@ -179,22 +177,15 @@ def main( ):
         pygame.display.flip()
 
         if gameover:
-            #solo reinicia el bucle
             continue
 
-        if respuesta:
-            respuesta = None
-
-        if not( pausarJuego ):
+        if pausarJuego == False and modoPregunta == False:
             if ir_a and quedarSe == False:
                 if jugador.moverSe( incremento, ir_a, mapaLogico ):
                     actualizaElIndiceDelJugador( mapaLogico, direccion )
                     ir_a = None
                     incremento = None
                     direccion = None
-
-                    #if not( moverSeCompaniero1 ):
-                    #print companiero1.getPosY( )
     
                     tupla = companiero1.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
                     if tupla:
@@ -204,20 +195,17 @@ def main( ):
                         if modoPregunta:
                             muestraPregunta = True
 
-                    #print "modoPregunta: %d" % modoPregunta
-                    if not( modoPregunta ):
-                        tupla = companiero2.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
-                        if tupla:
-                            modoPregunta = tupla[ 1 ]
-                            moverSeCompaniero2 = tupla[ 0 ]
-                            muestraPregunta = True
+                    tupla = companiero2.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
+                    if tupla:
+                        modoPregunta = tupla[ 1 ]
+                        moverSeCompaniero2 = tupla[ 0 ]
+                        muestraPregunta = True
 
-                    if not( modoPregunta ):
-                        tupla = companiero3.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
-                        if tupla:
-                            modoPregunta = tupla[ 1 ]
-                            moverSeCompaniero3 = tupla[ 0 ]
-                            muestraPregunta = True
+                    tupla = companiero3.debeInteractuar( mapaLogico, jugador, listaMapa,TILE_ANCHO, TILE_ALTO )
+                    if tupla:
+                        modoPregunta = tupla[ 1 ]
+                        moverSeCompaniero3 = tupla[ 0 ]
+                        muestraPregunta = True
     
                 #continue
     
@@ -232,19 +220,6 @@ def main( ):
             if ir_a and quedarSe == False:
                 continue
 
-            if modoPregunta:
-                if muestraPregunta:
-                    preguntas.dibujarPregunta( ventana )
-                    muestraPregunta = False
-
-                respuesta = preguntas.elegirOpcion( preguntas )
-                if respuesta:
-                    modoPregunta = False
-                    if respuesta == '4':
-                        esMalo = True
-
-                continue
-        
             if moverSeCompaniero1:
                 tupla = companiero1.interactuando( modoPregunta, listaMapa )
                 modoPregunta = tupla[ 1 ]
@@ -261,10 +236,23 @@ def main( ):
                 tupla = companiero3.interactuando( modoPregunta, listaMapa )
                 modoPregunta = tupla[ 1 ]
                 moverSeCompaniero3 = tupla[ 0 ]
-                print moverSeCompaniero3
 
                 continue
 
+
+        if modoPregunta:
+            if muestraPregunta:
+                print "A entrado en modo pregunta"
+                print "esperamdo respuesta..."
+                preguntas.dibujarPregunta( ventana )
+                muestraPregunta = False
+
+            if respuestaJugador:
+                modoPregunta = False
+                if respuestaJugador == '4':
+                    esMalo = True
+
+                respuestaJugador = None
 
             #blocks_hit_list = pygame.sprite.spsritecollide(jugador, block_list, True)
 
@@ -279,7 +267,17 @@ def main( ):
                 sys.exit( 0 )
 
             elif event.type == KEYDOWN:
-                if event.key == K_RIGHT:
+                if modoPregunta:
+                    if event.key == K_1:
+                        respuestaJugador = '1'
+                    if event.key == K_2:
+                        respuestaJugador = '2'
+                    if event.key == K_3:
+                        respuestaJugador = '3'
+                    if event.key == K_4:
+                        respuestaJugador = '4'
+
+                elif event.key == K_RIGHT:
                     moverJugadorA = "DERECHA"
                 elif event.key == K_LEFT:
                     moverJugadorA = "IZQUIERDA"

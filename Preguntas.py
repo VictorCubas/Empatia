@@ -95,7 +95,7 @@ class Preguntas:
 #----------------------------------------------------------------------------------------------
 # Hay que ver si estas funciones deben estar o no en jugador o en el main principal :)
 #----------------------------------------------------------------------------------------------
-    def elegirOpcion(self, pregunta):
+    '''def elegirOpcion(self, pregunta):
         respuestaJugador = None
         
         for event in pygame.event.get( ):
@@ -114,4 +114,4 @@ class Preguntas:
                 if event.key == K_4:
                     respuestaJugador = '4'
 
-        return respuestaJugador
+        return respuestaJugador '''
