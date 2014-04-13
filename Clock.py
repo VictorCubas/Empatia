@@ -44,8 +44,8 @@ class Clock( ):
         currentSec = 0
 
         if modoPregunta:
-            print "currentSec: %d" % currentSec
-            print "sec_anterior: %d" % self.sec_anterior
+            #print "currentSec: %d" % currentSec
+            #print "sec_anterior: %d" % self.sec_anterior
             self.showTime( self.minutes, self.seconds, ventana )
 
         elif not( gameover ):
