@@ -5,8 +5,8 @@ import pygame
 from pygame.locals import *
 import sys
 
-BLANCO = (255,255,255)
-ROJO = (255,0,0)
+#BLANCO = (255,255,255)
+#ROJO = (255,0,0)
 
 class Jugador( ):
     tileAncho = 0
@@ -37,41 +37,6 @@ class Jugador( ):
         pos_actual = ( self.tileAncho * y  , self.tileAlto * x)
         return pos_actual
 
-    def gameOver( self, ventana ):
-        jugarDenuevo = False
-
-        fuente = pygame.font.Font(None, 100 )
-        game_over = fuente.render("GAME OVER", 1, BLANCO )
-
-        pos = (182, 212 )
-        ventana.blit( game_over, pos )
-
-        fuente = pygame.font.Font(None, 40)
-        playAgain = fuente.render("Jugar de nuevo - Espacio", 1, ROJO )
-        pos = (220, 302)
-        ventana.blit( playAgain, pos )
-
-        quitGame = fuente.render("Salir del juego - Escape", 1, ROJO )
-        pos = (232, 337)
-        ventana.blit( quitGame, pos )
-
-        jugarDenuevo = self.captureEvent()
-
-        return jugarDenuevo
-
-    def captureEvent( self ):
-        for event in pygame.event.get( ):
-            if event.type == QUIT:
-                pygame.quit  
-                sys.exit( 0 )
-
-            elif event.type == KEYDOWN:
-                if event.key == K_SPACE:
-                    return True
-                elif event.key == K_ESCAPE:
-                    pygame.quit
-                    sys.exit( 0 )
-
     def moverSe( self, incremento, ir_a, mapa ):
         #print "pos_jugador"
         #print "(%d, %d)" % (mapa.getXDelJugador( ), mapa.getYDelJugador( ) )
@@ -83,7 +48,7 @@ class Jugador( ):
         disty = abs( ir_a[ 1 ] - self.rect.y )
         tdistx = ( abs( incremento[ 0 ] ) * 1 )
         tdisty = ( abs( incremento[ 1 ] ) * 1 )
-
+    
         if  distx <= tdistx and disty <= tdisty:
             self.rect.x = ir_a[ 0 ]
             self.rect.y = ir_a[ 1 ]
