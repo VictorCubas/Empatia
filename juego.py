@@ -27,6 +27,7 @@ ALTO = 595
 TILE_ANCHO = 60
 TILE_ALTO = 85
 BLANCO = (255, 255, 255)
+ROJO = (255,0,0)
 FPS = 120 #Frames por segundo
 
 #------
@@ -106,11 +107,6 @@ def main( ):
 
     while True:
 
-        #if pausarJuego:
-            #pausarJuego = captureEvent()
-
-            #continue
-
         FPSreloj.tick( FPS )
 
         if jugarDenuevo:
@@ -166,9 +162,10 @@ def main( ):
             hud.draw( ventana, esMalo )
 
             if gameover:
-                jugarDenuevo = jugador.gameOver( ventana )
-                if jugarDenuevo:
-                    gameover = False
+                game_over( ventana )
+                #jugarDenuevo = jugador.gameOver( ventana )
+                #if jugarDenuevo:
+                    #gameover = False
 
             esMalo = False
 
@@ -176,10 +173,10 @@ def main( ):
 
         pygame.display.flip()
 
-        if gameover:
-            continue
+        #if gameover:
+            #continue
 
-        if pausarJuego == False and modoPregunta == False:
+        if pausarJuego == False and modoPregunta == False and gameover == False:
             if ir_a and quedarSe == False:
                 if jugador.moverSe( incremento, ir_a, mapaLogico ):
                     actualizaElIndiceDelJugador( mapaLogico, direccion )
@@ -242,8 +239,8 @@ def main( ):
 
         if modoPregunta:
             if muestraPregunta:
-                print "A entrado en modo pregunta"
-                print "esperamdo respuesta..."
+                print "Ha entrado en modo pregunta"
+                print "esperando respuesta..."
                 preguntas.dibujarPregunta( ventana )
                 muestraPregunta = False
 
@@ -267,7 +264,14 @@ def main( ):
                 sys.exit( 0 )
 
             elif event.type == KEYDOWN:
-                if modoPregunta:
+                if gameover:
+                    if event.key == K_SPACE:
+                        jugarDenuevo = True
+                    elif event.key == K_ESCAPE:
+                        pygame.quit
+                        sys.exit( 0 )
+                    
+                elif modoPregunta:
                     if event.key == K_1:
                         respuestaJugador = '1'
                     if event.key == K_2:
@@ -306,9 +310,26 @@ def main( ):
                 incremento = ( ( ( ir_a[ 0 ] - pos_actual[ 0 ] ) * SPEED ), ( ( ir_a[ 1 ] - pos_actual[ 1 ] ) * SPEED ) )
                 direccion = moverJugadorA
 
-            #moverJugadorA = None
 
     return 0
+
+def game_over( ventana ):
+    jugarDenuevo = False
+
+    fuente = pygame.font.Font(None, 100 )
+    game_over = fuente.render("GAME OVER", 1, BLANCO )
+
+    pos = (182, 212 )
+    ventana.blit( game_over, pos )
+
+    fuente = pygame.font.Font(None, 40)
+    playAgain = fuente.render("Jugar de nuevo - Espacio", 1, ROJO )
+    pos = (220, 302)
+    ventana.blit( playAgain, pos )
+
+    quitGame = fuente.render("Salir del juego - Escape", 1, ROJO )
+    pos = (232, 337)
+    ventana.blit( quitGame, pos )
 
 def actualizaElIndiceDelJugador( mapaLogico, moverJugadorA ):
     if moverJugadorA == "DERECHA":
