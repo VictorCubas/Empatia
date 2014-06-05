@@ -100,8 +100,9 @@ def main( ):
     muestraPregunta = True
     modoPregunta = False
     esMalo = False
-    pausarJuego = False
+    modoPausa = False
     respuestaJugador = None
+    msjGameOver = True
 
     clock = None
 
@@ -139,8 +140,8 @@ def main( ):
             moverJugadorA = None
 
             gameover = False
-            jugarDenuevo = True
 
+            msjGameOver = True
             respuesta = None
             muestraPregunta = True
             modoPregunta = False
@@ -162,21 +163,18 @@ def main( ):
             hud.draw( ventana, esMalo )
 
             if gameover:
+                if msjGameOver == True:
+                    print "game over =("
+                    msjGameOver = False
                 game_over( ventana )
-                #jugarDenuevo = jugador.gameOver( ventana )
-                #if jugarDenuevo:
-                    #gameover = False
 
             esMalo = False
 
-        clock.mainClock( ventana, gameover, modoPregunta )
+        clock.mainClock( ventana, gameover, modoPregunta, modoPausa )
 
         pygame.display.flip()
 
-        #if gameover:
-            #continue
-
-        if pausarJuego == False and modoPregunta == False and gameover == False:
+        if modoPausa == False and modoPregunta == False and gameover == False:
             if ir_a and quedarSe == False:
                 if jugador.moverSe( incremento, ir_a, mapaLogico ):
                     actualizaElIndiceDelJugador( mapaLogico, direccion )
@@ -290,10 +288,10 @@ def main( ):
                 elif event.key == K_UP:
                     moverJugadorA = "ARRIBA"
                 elif event.key == K_SPACE:
-                    if not( pausarJuego ):
-                        pausarJuego = True
+                    if not( modoPausa ):
+                        modoPausa = True
                     else:
-                        pausarJuego = False
+                        modoPausa = False
                 elif event.key == K_q:
                     if not( quedarSe ):
                         quedarSe =  True

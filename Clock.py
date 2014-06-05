@@ -40,10 +40,10 @@ class Clock( ):
         pos = (30, 60 )
         ventana.blit( time, pos )
 
-    def mainClock( self, ventana, gameover, modoPregunta ):
+    def mainClock( self, ventana, gameover, modoPregunta, modoPausa ):
         currentSec = 0
 
-        if modoPregunta:
+        if modoPregunta or modoPausa:
             #print "currentSec: %d" % currentSec
             #print "sec_anterior: %d" % self.sec_anterior
             self.showTime( self.minutes, self.seconds, ventana )
