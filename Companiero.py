@@ -20,7 +20,7 @@ class Companiero( ):
     def __init__( self, x, y, tileAncho, tileAlto ):
         self.posXEnLaMatriz = x
         self.posYEnLaMatriz = y
-        self.image = pygame.image.load( 'companiero1.png' )
+        self.image = pygame.image.load( 'imagenes/companiero1.png' )
         self.rect = self.image.get_rect( )
         self.rect.x = y * tileAncho
         self.rect.y = x * tileAlto

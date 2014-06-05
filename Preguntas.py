@@ -59,7 +59,7 @@ class Preguntas:
         self.numeroPregunta = None
         self.fuente = None
         self.puntaje = 0
-        self.imagenFondo = pygame.image.load('trans4.png')
+        self.imagenFondo = pygame.image.load('imagenes/trans4.png')
 
     def dibujarPregunta(self, ventana):
 

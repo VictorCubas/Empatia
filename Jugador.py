@@ -14,7 +14,7 @@ class Jugador( ):
     posObjMatriz = None
 
     def __init__(self, tileAnch, tileAlt ):
-        self.image = pygame.image.load( 'jugador.png' )
+        self.image = pygame.image.load( 'imagenes/jugador.png' )
         self.tileAncho = tileAnch
         self.tileAlto = tileAlt
         self.rect = self.image.get_rect()

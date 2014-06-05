@@ -54,12 +54,12 @@ def main( ):
     # Diccionario de imagenes
     #------------------------
 
-    DICC_IMAGENES = { 'mesa' : pygame.image.load( 'mesa.png' ),
-					  'jugador' : pygame.image.load( 'jugador.png' ),
-                      'pisoSombra' : pygame.image.load( 'piso4.png' ),
-                      'pisoNormal' : pygame.image.load( 'pisoNormal.png' ),
-                      'companiero1' : pygame.image.load( 'companiero1.png' ),
-                      'malo': pygame.image.load('malo.png'),
+    DICC_IMAGENES = { 'mesa' : pygame.image.load( 'imagenes/mesa.png' ),
+					  'jugador' : pygame.image.load( 'imagenes/jugador.png' ),
+                      'pisoSombra' : pygame.image.load( 'imagenes/piso4.png' ),
+                      'pisoNormal' : pygame.image.load( 'imagenes/pisoNormal.png' ),
+                      'companiero1' : pygame.image.load( 'imagenes/companiero1.png' ),
+                      'malo': pygame.image.load('imagenes/malo.png'),
 					}
 
     #-------------------------------------
@@ -114,9 +114,9 @@ def main( ):
             #ESTO NO ME GUSTA
             #INICIALIZACION
 
-            malo1 = Malo("malo.png", (6, 2), TILE_ANCHO, TILE_ALTO)
-            malo2 = Malo("malo.png", (1, 0), TILE_ANCHO, TILE_ALTO)
-            malo3 = Malo("malo.png", (0, 12), TILE_ANCHO, TILE_ALTO)
+            malo1 = Malo("imagenes/malo.png", (6, 2), TILE_ANCHO, TILE_ALTO)
+            malo2 = Malo("imagenes/malo.png", (1, 0), TILE_ANCHO, TILE_ALTO)
+            malo3 = Malo("imagenes/malo.png", (0, 12), TILE_ANCHO, TILE_ALTO)
 
             jugador.setPosicionInicial( 360, 425)
 
