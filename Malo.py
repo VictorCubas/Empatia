@@ -21,7 +21,8 @@ class Malo( ):
     def __init__( self, imagen, posEnLaMatriz, tile_ancho, tile_alto ):
         #self._game_data = game_data
         self.pos_maloMatriz = posEnLaMatriz
-        self.imagenMalo = pygame.image.load( imagen )
+        #self.imagenMalo = pygame.image.load( imagen )
+        self.imagenMalo = imagen
         
         self.rect = self.imagenMalo.get_rect()
         self.rect.x = tile_ancho * posEnLaMatriz[ 1 ]
@@ -229,7 +230,7 @@ class Malo( ):
                 self.siguientePosMat = None
 
         if self.siGameOver(ir_a_jugador, posObjJugador, xDelJugador, yDelJugador):
-           print "+++game over+++"
+           print "kupa agarro al alumno"
            gameover = True
            return gameover
 

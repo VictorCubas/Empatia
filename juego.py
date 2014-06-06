@@ -43,13 +43,6 @@ def main( ):
     ventana = pygame.display.set_mode( ( ANCHO, ALTO ) )
     pygame.display.set_caption( "Juego" )
 
-    FPSreloj = pygame.time.Clock( )
-    jugador = Jugador( TILE_ANCHO, TILE_ALTO )
-
-    jugador.setPosicionInicial( 360, 425)
-    y = int ( ANCHO / TILE_ANCHO )
-    x = int ( ALTO / TILE_ALTO )
-
     #------------------------	
     # Diccionario de imagenes
     #------------------------
@@ -60,11 +53,16 @@ def main( ):
                       'pisoNormal' : pygame.image.load( 'imagenes/pisoNormal.png' ),
                       'companiero1' : pygame.image.load( 'imagenes/companiero1.png' ),
                       'malo': pygame.image.load('imagenes/malo.png'),
+                      'fondo' : pygame.image.load('imagenes/trans4.png'),
 					}
 
-    #-------------------------------------
-    # Diccionario de las imagenes del mapa 
-    #-------------------------------------
+
+    FPSreloj = pygame.time.Clock( )
+    jugador = Jugador( TILE_ANCHO, TILE_ALTO, DICC_IMAGENES[ 'jugador' ] )
+
+    jugador.setPosicionInicial( 360, 425 )
+    y = int ( ANCHO / TILE_ANCHO )
+    x = int ( ALTO / TILE_ALTO )
 
     hud = None
     malo1 = None
@@ -77,7 +75,7 @@ def main( ):
     mapaLogico = None
     listaMapa = None
 
-    preguntas = Preguntas( )
+    preguntas = Preguntas( DICC_IMAGENES[ 'fondo' ] )
 
     #all_sprites_list.add(jugador) #se usará una vez que tengamos más personajes
 
@@ -114,9 +112,9 @@ def main( ):
             #ESTO NO ME GUSTA
             #INICIALIZACION
 
-            malo1 = Malo("imagenes/malo.png", (6, 2), TILE_ANCHO, TILE_ALTO)
-            malo2 = Malo("imagenes/malo.png", (1, 0), TILE_ANCHO, TILE_ALTO)
-            malo3 = Malo("imagenes/malo.png", (0, 12), TILE_ANCHO, TILE_ALTO)
+            malo1 = Malo( DICC_IMAGENES[ 'malo' ], (6, 2), TILE_ANCHO, TILE_ALTO )
+            malo2 = Malo( DICC_IMAGENES[ 'malo' ], (1, 0), TILE_ANCHO, TILE_ALTO )
+            malo3 = Malo( DICC_IMAGENES[ 'malo' ], (0, 12), TILE_ANCHO, TILE_ALTO )
 
             jugador.setPosicionInicial( 360, 425)
 

@@ -52,14 +52,14 @@ DICC_OPCIONES={
 
 class Preguntas:
 
-    def __init__(self):
-        self.parser = SafeConfigParser()
+    def __init__( self, imagen ):
+        self.parser = SafeConfigParser( )
         self.parser.read('config.ini')
         self.fuentePregunta = pygame.font.Font('freesansbold.ttf', 30)
         self.numeroPregunta = None
         self.fuente = None
         self.puntaje = 0
-        self.imagenFondo = pygame.image.load('imagenes/trans4.png')
+        self.imagenFondo = imagen
 
     def dibujarPregunta(self, ventana):
 
